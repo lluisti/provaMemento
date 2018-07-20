@@ -168,8 +168,10 @@ function libreria(libreria) {
 }
 
 function forEach(coleccion, funcion) {
-    for (var i = 0; i < coleccion.length; i++) {
-        funcion(coleccion[i], i);
+    if (coleccion != null && coleccion.length != 0) {
+        for (var i = 0; i < coleccion.length; i++) {
+            funcion(coleccion[i], i);
+        }
     }
 }
 
@@ -226,7 +228,7 @@ function vincularEntrada0(entradaActual, libreriaDestino, campoLinks, campoLinkD
     if (entrada0 != null) {
         forEach(links, function (link, i) {
             if (link.field(campoIdDestino) == 0) {
-                if (link.id == entrada0.id) {
+                if (!contieneEntrada0 && link.id == entrada0.id) {
                     contieneEntrada0 = true;
                     message('Contiene');
                 } else {
