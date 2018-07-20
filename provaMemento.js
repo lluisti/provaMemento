@@ -1,8 +1,10 @@
 
 // Literales
 var NUEVO_REGISTRO = 'NUEVO REGISTRO';
+var SITUACION_DEFECTO_FICHA = 'CONSULTA';
 
-
+var MSG_VUELVE_A_INTRODUCIR = 'Por favor, vuelve ha introducir el campo ';
+var MSG_GUARDADO = 'Ficha Guardada';
 
 
 // Librerias
@@ -209,7 +211,7 @@ function crearFicha0EnCentro(centro) {
  * 
  * @param {Entry} entradaActual Entrada actual, entry() si es null
  * @param {String|Lib} libreriaDestino Libreria donde esta la entrada 0 (nombre o objeto)
- * @param {String} campoLinks Campo de la entrada actual donde debe estar el link a la entrada 0
+ * @param {String} campoLink Campo de la entrada actual donde debe estar el link a la entrada 0
  * @param {String} campoLinkDestino Campo de la entrada 0 donde debe estar el link a la entrada actual
  * @param {String} campoMaestro Campo de la entrada actual que determina que entrada 0 debo buscar
  * @param {String} campoMaestroDestino Campo de la entrada 0 que determina que entrada 0 debo buscar
@@ -217,13 +219,13 @@ function crearFicha0EnCentro(centro) {
  * @param {Object} objetoEntrada0 Objeto con los campo/valores de la nueva entrada 0
  * @param {Function} objetoEntrada0 Funcion para completar la nueva entrada 0
  */
-function vincularEntrada0(entradaActual, libreriaDestino, campoLinks, campoLinkDestino, campoMaestro, campoMaestroDestino, campoIdDestino, objetoEntrada0, funcionCrearEntrada0) {
+function vincularEntrada0(entradaActual, libreriaDestino, campoLink, campoLinkDestino, campoMaestro, campoMaestroDestino, campoIdDestino, objetoEntrada0, funcionCrearEntrada0) {
     if (entradaActual == null) {
         entradaActual = entry();
     }
     libreriaDestino = libreria(libreriaDestino);
 
-    var links = entradaActual.field(campoLinks);
+    var links = entradaActual.field(campoLink);
     var contieneEntrada0 = false;
 
     var entradaMaestro = entradaActual.field(campoMaestro)[0]
@@ -244,7 +246,7 @@ function vincularEntrada0(entradaActual, libreriaDestino, campoLinks, campoLinkD
                     contieneEntrada0 = true;
                     message('Contiene');
                 } else {
-                    entradaActual.unlink(campoLinks, link);
+                    entradaActual.unlink(campoLink, link);
                 }
             }
         });
@@ -255,21 +257,27 @@ function vincularEntrada0(entradaActual, libreriaDestino, campoLinks, campoLinkD
 
         if (entrada0 == null) {
 
-            entrada0 = libreriaDestino.create(objetoEntrada0);
-
-            entrada0.link(campoMaestroDestino, entradaMaestro);
-
-            if (funcionCrearEntrada0 != null) {
-                funcionCrearEntrada0(entradaActual, entrada0, entradaMaestro);
-            }
+            entrada0 = crearEntrada0(objetoEntrada0, funcionCrearEntrada0, entradaActual, entradaMaestro);
         }
 
         informarOrigenEntrada0(entradaActual, entrada0, campoLinkDestino)
 
-        entradaActual.link(campoLinks, entrada0);
+        entradaActual.link(campoLink, entrada0);
         entradaActual.recalc();
 
     }
+}
+
+function crearEntrada0(objetoEntrada0, funcionCrearEntrada0, entradaActual, entradaMaestro) {
+    var entrada0 = libreriaDestino.create(objetoEntrada0);
+
+    entrada0.link(campoMaestroDestino, entradaMaestro);
+
+    if (funcionCrearEntrada0 != null) {
+        funcionCrearEntrada0(entradaActual, entrada0, entradaMaestro);
+    }
+
+    return entrada0;
 }
 
 function informarOrigenEntrada0(entradaActual, entrada0, campoLinkDestino) {
@@ -287,45 +295,235 @@ function informarOrigenEntrada0(entradaActual, entrada0, campoLinkDestino) {
     entrada0.recalc();
 }
 
+/**
+ * 
+ * @param {Entry} entrada Entrada actual, entry() si es null
+ * @param {String} campoId Campo identificador de la entrada 0
+ * @param {String} campoLink Campo de la entrada 0 donde debe estar el link a la entrada padre
+ * @param {String} campoLinkPadre Campo de la entrada padre donde debe estar el link a la entrada 0
+ * @param {String} campoMaestro Campo de la entrada 0 que determina a quien pertenece la entrada 0
+ * @param {String[]} camposLinkHijos Campos de la entrada 0 que apuntan a una entrada hijo que se debe actualizar
+ * @param {String[]} camposHijos Campos de las entradas hijo que se debe actualizar
+ * @param {String} campoSituacion Campo donde se almacena la situacion NUEVO_REGISTRO
+ * @param {String} situacionDefecto Situacion por defecto si no es entrada 0
+ */
+function modificarEntrada0(entrada, campoId, campoLink, campoLinkPadre, campoMaestro, camposLinkHijos, camposHijos, campoSituacion, situacionDefecto) {
+    if (entrada) {
+        entrada = entry();
+    }
+    var libreria = lib();
+
+    if (entrada.field(campoId) == 0) {
+
+        var entradaNueva = {};
+
+        entradaNueva[campoId] = obtenerSiguienteId(libreria, campoId);
+
+        entradaNueva = libreria.create(entradaNueva);
+
+        var entradaPadre = entrada.field(campoLink);
+        entradaPadre.link(campoLinkPadre, entradaNueva);
+
+        forEach(CAMPOS_FICHA, function (campo) {
+            var valorCampo = entrada.field(campo);
+            if (valorCampo != null && valorCampo != []) {
+                entradaNueva[campo] = entrada.field(campo);
+                if (valorCampo instanceof Array && valorCampo[0] != null) {
+                    if (typeof valorCampo[0] == 'string') {
+                        entradaNueva.set(campo, valorCampo);
+                        entrada.set(campo, null);
+                    } else {
+                        forEach(valorCampo, function (entradaHijo) {
+                            entrada.unlink(campo, entradaHijo);
+                            entradaNueva.link(campo, entradaHijo);
+
+                            forEach(camposLinkHijos, function(campoLinkHijo, i) {
+                                if (campo == campoLinkHijo) {
+                                    entradaHijo.unlink(camposHijos[i], entrada);
+                                    entradaHijo.link(camposHijos[i], entradaNueva);
+                                    entradaHijo.recalc();
+                                }
+                            });
+                        });
+                    }
+                } else if (valorCampo instanceof Date) {
+                    if (valorCampo.getTime() >= 0) {
+                        entradaNueva.set(campo, valorCampo);
+                    } else {
+                        message(MSG_VUELVE_A_INTRODUCIR + campo);
+                    }
+                    entrada.set(campo, null);
+                } else {
+                    entradaNueva.set(campo, valorCampo);
+                    entrada.set(campo, null);
+                }
+            }
+        });
+
+
+        if (entradaNueva.field(campoSituacion) == NUEVO_REGISTRO) {
+            entradaNueva.set(campoSituacion, situacionDefecto);
+        }
+
+        entrada.set(campoId, 0);
+        entrada.set(campoSituacion, NUEVO_REGISTRO);
+        entrada.link(campoMaestro, entradaNueva.field(campoMaestro)[0]);
+        entrada.link(campoLink, entradaPadre);
+
+        entradaNueva.recalc();
+        entradaNueva.show();
+
+        message(MSG_GUARDADO);
+    } else {
+        if (entrada.field(campoSituacion) == NUEVO_REGISTRO) {
+            entrada.set(campoSituacion, situacionDefecto);
+            entrada.recalc();
+        }
+    }
+
+}
+
+
+function obtenerSiguienteId(libreria, campoId) {
+    libreria = libreria(libreria);
+
+    var maxId = 0;
+
+    var entradas = libreria.entries();
+    forEach(entradas, function (entrada) {
+        var num = entrada.field(campoId);
+        if (num > maxId) {
+            maxId = num;
+        }
+    });
+
+    return maxId + 1;
+}
 
 
 
 
 
+// function modificarFicha0() {
+
+//     var CAMPOS_FICHA = ['Aceptación', 'Aceptadas condiciones', 'Ver documento Protección de datos', 'Quien le recomendo el tratamiento', 'Fecha alta', 'Otros', 'Situación', 'Nombre', 'Apellidos', 'D.N.I.', 'Sexo', 'Fecha de nacimiento', 'Dirección', 'Código Postal', 'Población', 'Teléfono', 'Movil', 'Email', 'Patologías diagnosticadas', 'Otras patologías', 'Medicación Otras patologías', 'Tipo de medicación Otras patologías', 'Complementos alimenticios otras patologías', 'com Otras', 'Articular', 'Medicación Articular', 'Tipo de medicación Articular', 'Complementos alimenticios articular', 'com Articular', 'Circulatoria', 'Medicación Circulatoria', 'Tipo de medicación Circulatoria', 'Complementos alimenticios circulatoria', 'com Circulatoria', 'Cutanea', 'Medicación Cutanea', 'Tipo de medicación Cutaneo', 'Complementos alimenticios Cutanea', 'com Cutanea', 'Digestiva', 'Medicación Digestiva', 'Tipo de medicación Digestiva', 'Complementos alimenticios Digestiva', 'com Digestiva', 'Metabolica', 'Medicación Metabolica', 'Tipo de medicación Metabolica', 'Complementos alimenticios Metabolica', 'com Metabolica', 'Respiratoria', 'Medicación Respiratoria', 'Tipo de medicación Respiratoria', 'Complementos alimenticios Respiratoria', 'com Respiratoria', 'Sistema nervioso', 'Medicación Sistema Nervioso', 'Tipo de medicación Sistema Nervioso', 'Complementos alimenticios Sistema Nervioso', 'com Sistema Nervioso', 'Transtornos Psicológicos', 'Medicación Transtornos Psicológicos', 'Tipo de medicación Transtornos Psicológicos', 'Complementos alimenticios Transtornos Psicológicos', 'com Transtornos Psicológicos', 'Intervenciones Quirurjicas', 'Presión arterial', 'Mediciones Presión arterial', 'Colesterol', 'HDL', 'LDL', 'Colesterol total', 'Triglicéridos', 'Añadir Información de otros datos analíticos', 'Mostrar Analitica', 'Img analitica', 'Alergias', 'Alergias  Alimenticias', 'Alergias Medicamentosas', 'Alergias Otras', 'Intolerancias alimenticias', 'Otras Intolerancias', 'Caminar', 'Deportes', 'Deporte que practica', 'Desayuno', 'Hora desayuno', 'Mèdia mañana', 'Horario media mañana', 'Comida', 'Hora comida', 'Merienda', 'Hora merienda', 'Cena', 'Hora cena', 'Consumo de Lacteos', 'Consumo de Fruta', 'Consumo de Legumbres', 'Consumo de Pasta', 'Consumo de Arroz', 'Consumo de Verdura', 'Consumo de Ensalada', 'Consumo de Carne', 'Consumo de Pescado', 'Consumo diario de agua', 'Intentar no incluir en las dietas', 'Ansiedad', 'Tipo de Ansiedad', 'Ansiedad Otros', 'En que momento del día se producte la ansiedad', 'WC', 'WC Otros', 'Reglas', 'Reglas Otras', 'Altura', 'Visita', 'Histórico', 'iddietista', 'idCentro', 'filtro'];
+
+//     // Librerias
+//     var LIBRERIA_CENTROS = 'Centros';
+
+//     // Campos en Ficha
+//     var CAMPO_ID_PACIENTE = 'idPaciente';
+//     var CAMPO_CENTRO = 'idCentro';
+//     var CAMPO_VISITAS = 'Visita';
+//     var CAMPO_PRESION_ARTERIAL = 'Mediciones Presión arterial';
+//     var CAMPO_SITUACION = 'Situación';
+//     var CAMPO_DIETISTA = 'iddietista';
+
+//     // Campos en Visitas
+//     var CAMPO_FICHA_EN_VISITA = 'dFichPaciente';
+
+//     // Campos en Presion arterial
+//     var CAMPO_FICHA_EN_PRESION_ARTERIAL = 'idFicha';
+
+//     // Campos en Centros
+//     var CAMPO_DIETISTA_EN_CENTRO = 'iddietista';
+//     var CAMPO_FICHA_EN_CENTRO = 'Ficha cliente';
+
+//     // Valores constantes
+//     var SITUACION_NUEVO = 'NUEVO REGISTRO';
+//     var SITUACION_DEFECTO = 'Consulta';
+
+//     // Mensajes
+//     var MSG_VUELVE_A_INTRODUCIR = 'Por favor, vuelve ha introducir el campo ';
+//     var MSG_GUARDADO = 'Ficha Guardada';
 
 
+//     var ficha = entry();
+//     var libFichas = lib();
+//     var libCentros = libByName(LIBRERIA_CENTROS);
+//     var entradas = libFichas.entries();
+//     if (ficha.field(CAMPO_ID_PACIENTE) == 0) {
 
+//         //message('Grabando');
 
+//         var fichaNueva = new Object();
 
+//         var maxId = 0;
 
+//         for (var i = 0; i < entradas.length; i++) {
+//             var num = entradas[i].field(CAMPO_ID_PACIENTE);
+//             if (num > maxId) {
+//                 maxId = num;
+//             }
+//         }
 
+//         fichaNueva[CAMPO_ID_PACIENTE] = maxId + 1;
 
+//         fichaNueva = libFichas.create(fichaNueva);
 
+//         var centro = ficha.field(CAMPO_CENTRO)[0];
+//         centro.link(CAMPO_FICHA_EN_CENTRO, fichaNueva);
 
+//         for (var i = 0; i < CAMPOS_FICHA.length; i++) {
+//             var campo = CAMPOS_FICHA[i];
+//             var valorCampo = ficha.field(campo);
+//             if (valorCampo != null && valorCampo != []) {
+//                 fichaNueva[campo] = ficha.field(campo);
+//                 if (valorCampo instanceof Array && valorCampo[0] != null) {
+//                     if (typeof valorCampo[0] == 'string') {
+//                         fichaNueva.set(campo, valorCampo);
+//                         ficha.set(campo, null);
+//                     } else {
+//                         for (var j = 0; j < valorCampo.length; j++) {
+//                             ficha.unlink(campo, valorCampo[j]);
+//                             fichaNueva.link(campo, valorCampo[j]);
 
+//                             if (campo == CAMPO_VISITAS) {
+//                                 valorCampo[j].unlink(CAMPO_FICHA_EN_VISITA, ficha);
+//                                 valorCampo[j].link(CAMPO_FICHA_EN_VISITA, fichaNueva);
+//                                 valorCampo[j].recalc();
+//                             } else if (campo == CAMPO_PRESION_ARTERIAL) {
+//                                 valorCampo[j].unlink(CAMPO_FICHA_EN_PRESION_ARTERIAL, ficha);
+//                                 valorCampo[j].link(CAMPO_FICHA_EN_PRESION_ARTERIAL, fichaNueva);
+//                                 valorCampo[j].recalc();
+//                             }
 
+//                         }
+//                     }
+//                 } else if (valorCampo instanceof Date) {
+//                     if (valorCampo.getTime() >= 0) {
+//                         fichaNueva.set(campo, valorCampo);
+//                     } else {
+//                         message(MSG_VUELVE_A_INTRODUCIR + campo);
+//                     }
+//                     ficha.set(campo, null);
+//                 } else {
+//                     fichaNueva.set(campo, valorCampo);
+//                     ficha.set(campo, null);
+//                 }
+//             }
+//         }
 
+//         if (fichaNueva.field(CAMPO_SITUACION) == SITUACION_NUEVO) {
+//             fichaNueva.set(CAMPO_SITUACION, SITUACION_DEFECTO);
+//         }
 
+//         ficha.set(CAMPO_ID_PACIENTE, 0);
+//         ficha.set(CAMPO_SITUACION, SITUACION_NUEVO);
+//         ficha.link(CAMPO_DIETISTA, centro.field(CAMPO_DIETISTA_EN_CENTRO)[0]);
+//         ficha.link(CAMPO_CENTRO, centro);
 
+//         fichaNueva.recalc();
+//         fichaNueva.show();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//         message(MSG_GUARDADO);
+//     } else {
+//         if (ficha.field(CAMPO_SITUACION) == SITUACION_NUEVO) {
+//             ficha.set(CAMPO_SITUACION, SITUACION_DEFECTO);
+//             ficha.recalc();
+//         }
+//     }
+// }
 
 
 
