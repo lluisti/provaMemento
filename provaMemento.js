@@ -168,7 +168,7 @@ function libreria(libreria) {
 }
 
 function forEach(coleccion, funcion) {
-    for (let i = 0; i < coleccion.length; i++) {
+    for (var i = 0; i < coleccion.length; i++) {
         funcion(coleccion[i], i);
     }
 }
