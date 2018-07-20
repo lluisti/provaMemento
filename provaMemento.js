@@ -219,8 +219,13 @@ function vincularEntrada0(entradaActual, libreriaDestino, campoLinks, campoLinkD
     var entradasDestino = libreriaDestino.linksTo(entradaMaestro);
     var entrada0 = null;
 
+    message(entradasDestino);
+    message(entradasDestino);
+
     for (var i = 0; i < entradasDestino.length; i++) {
         var entradaDestino = entradasDestino[i];
+        message(entradaDestino);
+        message(entradaDestino);
         if (entradaDestino.field(campoIdDestino) == 0) {
             entrada0 = entradaDestino;
         }
