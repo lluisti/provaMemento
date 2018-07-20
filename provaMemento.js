@@ -1,6 +1,6 @@
 
 // Literales
-var ANADIR_NUEVO_REGISTRO = 'AÑADIR NUEVO REGISTRO';
+var NUEVO_REGISTRO = 'NUEVO REGISTRO';
 
 
 
@@ -186,7 +186,7 @@ function crearFicha0EnCentro(centro) {
     var objetoEntrada0 = {};
 
     objetoEntrada0[LIB_FICHA_CAMPO_IDPACIENTE] = 0;
-    objetoEntrada0[LIB_FICHA_CAMPO_SITUACION] = ANADIR_NUEVO_REGISTRO;
+    objetoEntrada0[LIB_FICHA_CAMPO_SITUACION] = NUEVO_REGISTRO;
 
     var funcionCrearEntrada0 = null;
 
