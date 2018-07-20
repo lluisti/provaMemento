@@ -219,24 +219,29 @@ function vincularEntrada0(entradaActual, libreriaDestino, campoLinks, campoLinkD
     var entradasDestino = libreriaDestino.linksTo(entradaMaestro);
     var entrada0 = null;
 
-    message(entradasDestino);
-    message(entradasDestino);
+    // message(entradasDestino);
+    // message(entradasDestino);
 
-    for (var i = 0; i < entradasDestino.length; i++) {
-        var entradaDestino = entradasDestino[i];
-        message(entradaDestino);
-        message(entradaDestino);
-        if (entradaDestino.field(campoIdDestino) == 0) {
-            entrada0 = entradaDestino;
-        }
-    }
-
-
-    // forEach(entradasDestino, function (entradaDestino, i) {
+    // for (var i = 0; i < entradasDestino.length; i++) {
+    //     var entradaDestino = entradasDestino[i];
+    //     message(entradaDestino);
+    //     message(entradaDestino);
     //     if (entradaDestino.field(campoIdDestino) == 0) {
     //         entrada0 = entradaDestino;
     //     }
-    // });
+    // }
+
+
+    forEach(entradasDestino, function (entradaDestino, i) {
+        try {
+
+            if (entradaDestino.field(campoIdDestino) == 0) {
+                entrada0 = entradaDestino;
+            }
+        } catch (error) {
+            entradaDestino.unlink(campoMaestroDestino, entradaMaestro);
+        }
+    });
 
     if (entrada0 != null) {
         forEach(links, function (link, i) {
