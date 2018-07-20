@@ -162,7 +162,7 @@ var CAMPOS_FICHA = [
 
 function libreria(libreria) {
     if (typeof libreria == 'string') {
-        libreria = lib(libreria);
+        libreria = libByName(libreria);
     }
     return libreria;
 }
@@ -233,13 +233,8 @@ function vincularEntrada0(entradaActual, libreriaDestino, campoLinks, campoLinkD
 
 
     forEach(entradasDestino, function (entradaDestino, i) {
-        try {
-
-            if (entradaDestino.field(campoIdDestino) == 0) {
-                entrada0 = entradaDestino;
-            }
-        } catch (error) {
-            entradaDestino.unlink(campoMaestroDestino, entradaMaestro);
+        if (entradaDestino.field(campoIdDestino) == 0) {
+            entrada0 = entradaDestino;
         }
     });
 
