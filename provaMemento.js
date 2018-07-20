@@ -175,6 +175,18 @@ function forEach(coleccion, funcion) {
     }
 }
 
+function informarCentroEnFicha(centro) {
+    if (centro == null) {
+        centro = entry();
+    }
+    var campoLinkDestino = LIB_FICHA_CAMPO_IDCENTRO;
+
+    forEach(centro.field(LIB_CENTROS_CAMPO_FICHA_CLIENTE), function (entrada, i) {
+        if (entrada.field(LIB_FICHA_CAMPO_IDPACIENTE) == 0) {
+            informarOrigenEntrada0(centro, entrada, campoLinkDestino)
+        }
+    });
+}
 
 function crearFicha0EnCentro(centro) {
     var libreriaDestino = LIB_FICHA;
@@ -219,19 +231,6 @@ function vincularEntrada0(entradaActual, libreriaDestino, campoLinks, campoLinkD
     var entradasDestino = libreriaDestino.linksTo(entradaMaestro);
     var entrada0 = null;
 
-    // message(entradasDestino);
-    // message(entradasDestino);
-
-    // for (var i = 0; i < entradasDestino.length; i++) {
-    //     var entradaDestino = entradasDestino[i];
-    //     message(entradaDestino);
-    //     message(entradaDestino);
-    //     if (entradaDestino.field(campoIdDestino) == 0) {
-    //         entrada0 = entradaDestino;
-    //     }
-    // }
-
-
     forEach(entradasDestino, function (entradaDestino, i) {
         if (entradaDestino.field(campoIdDestino) == 0) {
             entrada0 = entradaDestino;
@@ -265,14 +264,7 @@ function vincularEntrada0(entradaActual, libreriaDestino, campoLinks, campoLinkD
             }
         }
 
-        var linksDestino = entrada0.field(campoLinkDestino);
-
-        forEach(linksDestino, function (linkDestino, i) {
-            entrada0.unlink(campoLinkDestino, linkDestino);
-        });
-
-        entrada0.link(campoLinkDestino, entradaActual);
-        entrada0.recalc();
+        informarOrigenEntrada0(entradaActual, entrada0, campoLinkDestino)
 
         entradaActual.link(campoLinks, entrada0);
         entradaActual.recalc();
@@ -280,6 +272,83 @@ function vincularEntrada0(entradaActual, libreriaDestino, campoLinks, campoLinkD
     }
 }
 
+function informarOrigenEntrada0(entradaActual, entrada0, campoLinkDestino) {
+    if (entradaActual == null) {
+        entradaActual = entry();
+    }
+
+    var linksDestino = entrada0.field(campoLinkDestino);
+
+    forEach(linksDestino, function (linkDestino, i) {
+        entrada0.unlink(campoLinkDestino, linkDestino);
+    });
+
+    entrada0.link(campoLinkDestino, entradaActual);
+    entrada0.recalc();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function informarCentroEnFicha() {
+//     var centro = entry();
+
+//     var fichasCentro = centro.field('Ficha cliente');
+
+//     for (var i = 0; i < fichasCentro.length; i++) {
+//         var ficha = fichasCentro[i];
+//         if (ficha.field('idPaciente') == 0) {
+//             //ficha.set('iddietista', centro.field('iddietista'));
+//             var centrosFicha = ficha.field('idCentro');
+//             for (var j = 0; j < centrosFicha.length; j++) {
+//                 ficha.unlink('idCentro', centrosFicha[j]);
+//             }
+//             ficha.link('idCentro', centro);
+//         }
+//     }
+// }
 
 // function crearFicha0EnCentro() {
 
@@ -342,27 +411,6 @@ function vincularEntrada0(entradaActual, libreriaDestino, campoLinks, campoLinkD
 //     }
 
 // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function helloWorld() {
