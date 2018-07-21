@@ -276,19 +276,13 @@ function getLink(entrada, campo) {
 }
 
 function getField(entrada, campo) {
-    return messageError(function (entrada, campo) {
+    try {
         var valor = entrada.field(campo);
         // Si es un link cacheado
         if (cacheLinks[entrada.id + ' ' + campo] != null) {
             return getLink(entrada, campo);
         }
         return valor;
-    }, entrada, campo);
-}
-
-function messageError(funcion, ...args) {
-    try {
-        return funcion.apply(null, args);
     } catch (e) {
         message(campo + ' - ' + e);
         message(campo + ' - ' + e);
