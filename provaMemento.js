@@ -424,7 +424,7 @@ function vincularEntrada0(entradaActual, libreriaDestino, campoLink, campoLinkDe
             if (getField(link, campoIdDestino) == 0) {
                 if (!contieneEntrada0 && link.id == entrada0.id) {
                     contieneEntrada0 = true;
-                    message('Contiene');
+                    // message('Contiene');
                 } else {
                     removeLink(entradaActual, campoLink, link);
                 }
@@ -433,7 +433,7 @@ function vincularEntrada0(entradaActual, libreriaDestino, campoLink, campoLinkDe
     }
 
     if (!contieneEntrada0) {
-        message('No contiene');
+        // message('No contiene');
 
         if (entrada0 == null) {
 
@@ -501,10 +501,12 @@ function informarOrigenEntrada(entradaOrigen, entrada, campoLink) {
     var links = getField(entrada, campoLink);
 
     forEach(links, function (link, i) {
-        removeLink(entrada, campoLink, link);
+        entrada.unlink(campoLink, link);
+        //removeLink(entrada, campoLink, link);
     });
 
-    setLink(entrada, campoLink, entradaOrigen);
+    entrada.link(campoLink, entradaOrigen);
+    //setLink(entrada, campoLink, entradaOrigen);
     entrada.recalc();
 }
 
@@ -867,7 +869,7 @@ function obtenerSiguienteId(libreria, campoId) {
 
 function helloWorld() {
 
-    message('Hello World9!!');
+    message('Hello World10!!');
 
 }
 
