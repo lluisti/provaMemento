@@ -291,6 +291,19 @@ function informarCentroEnFicha(centro) {
     });
 }
 
+function informarFichaEnPresion(ficha) {
+    if (ficha == null) {
+        ficha = entry();
+    }
+    var campoLinkDestino = LIB_PRESION_CAMPO_IDFICHA;
+
+    forEach(ficha.field(LIB_FICHA_CAMPO_MEDICIONES_PRESION_ARTERIAL), function (entrada, i) {
+        if (entrada.field(LIB_PRESION_CAMPO_IDPRESION) == 0) {
+            informarOrigenEntrada(ficha, entrada, campoLinkDestino)
+        }
+    });
+}
+
 function crearFicha0EnCentro(centro) {
     var libreriaDestino = LIB_FICHA;
     var campoLinks = LIB_CENTROS_CAMPO_FICHA_CLIENTE;
@@ -306,6 +319,23 @@ function crearFicha0EnCentro(centro) {
     var funcionCompletarEntrada0 = completarFicha0;
 
     vincularEntrada0(centro, libreriaDestino, campoLinks, campoLinkDestino, campoMaestro, campoMaestroDestino, campoIdDestino, objetoEntrada0, funcionCompletarEntrada0);
+}
+
+function crearPresion0EnFicha(ficha) {
+    var libreriaDestino = LIB_PRESION;
+    var campoLinks = LIB_FICHA_CAMPO_MEDICIONES_PRESION_ARTERIAL;
+    var campoLinkDestino = LIB_PRESION_CAMPO_IDFICHA;
+    var campoMaestro = LIB_FICHA_CAMPO_IDDIETISTA;
+    var campoMaestroDestino = LIB_PRESION_CAMPO_IDDIETISTA;
+    var campoIdDestino = LIB_PRESION_CAMPO_IDPRESION;
+    var objetoEntrada0 = {};
+
+    objetoEntrada0[LIB_PRESION_CAMPO_IDPRESION] = 0;
+    objetoEntrada0[LIB_PRESION_CAMPO_SITUACION] = SITUACION_NUEVO_REGISTRO;
+
+    var funcionCompletarEntrada0 = null;
+
+    vincularEntrada0(ficha, libreriaDestino, campoLinks, campoLinkDestino, campoMaestro, campoMaestroDestino, campoIdDestino, objetoEntrada0, funcionCompletarEntrada0);
 }
 
 /**
@@ -371,8 +401,8 @@ function vincularEntrada0(entradaActual, libreriaDestino, campoLink, campoLinkDe
 }
 
 function completarFicha0(centro, ficha0, entradaMaestro) {
-    var visitaInicial = crearVisita({}, ficha0, LIB_FICHA_CAMPO_VISITA, entradaMaestro);
-
+    crearVisita({}, ficha0, LIB_FICHA_CAMPO_VISITA, entradaMaestro);
+    crearPresion0EnFicha(ficha0);
 }
 
 function completarVisita(ficha, visita, entradaMaestro) {
