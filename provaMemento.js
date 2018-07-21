@@ -810,6 +810,12 @@ function obtenerSiguienteId(libreria, campoId) {
 
 function helloWorld() {
 
-    message('Hello World3!!');
+    message('Hello World4!!');
 
+}
+
+var VERSION = '${VERSION-0.1}';
+
+function version() {
+    message(VERSION)
 }
