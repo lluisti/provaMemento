@@ -1,4 +1,7 @@
 
+// Version
+var VERSION = '${VERSION-0.1.1}';
+
 // Literales
 var MSG_VUELVE_A_INTRODUCIR = 'Por favor, vuelve ha introducir el campo ';
 var MSG_GUARDADO = 'Guardado correctamente';
@@ -605,6 +608,7 @@ function modificarEntrada0(entrada, campoId, campoLink, campoLinkPadre, campoMae
 
         var entradaPadre = getField(entrada, campoLink)[0];
         setLink(entradaPadre, campoLinkPadre, entradaNueva);
+        entradaPadre.recalc();
 
         var entradaMaestro = getField(entrada, campoMaestro)[0];
 
@@ -693,11 +697,9 @@ function obtenerSiguienteId(libreria, campoId) {
 
 function helloWorld() {
 
-    message('Hello World15!!');
+    message('Hello World16!!');
 
 }
-
-var VERSION = '${VERSION-0.1.1}';
 
 function version() {
     message(VERSION)
