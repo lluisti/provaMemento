@@ -536,7 +536,7 @@ function modificarFicha0(ficha) {
  * @param {Fucntion} funcionCompletarEntrada0 Funcion para completar la entrada 0
  */
 function modificarEntrada0(entrada, campoId, campoLink, campoLinkPadre, campoMaestro, camposLinkHijos, camposHijos, campoSituacion, situacionDefecto, funcionCompletarEntrada0) {
-    if (entrada) {
+    if (entrada == null) {
         entrada = entry();
     }
     var libreria = lib();
@@ -867,7 +867,7 @@ function obtenerSiguienteId(libreria, campoId) {
 
 function helloWorld() {
 
-    message('Hello World8!!');
+    message('Hello World9!!');
 
 }
 
