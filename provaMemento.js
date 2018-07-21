@@ -401,6 +401,8 @@ function vincularEntrada0(entradaActual, libreriaDestino, campoLink, campoLinkDe
 }
 
 function completarFicha0(centro, ficha0, entradaMaestro) {
+    libreria = getLibreria(LIB_FICHA);
+    ficha0 = libreria.findById(ficha0.id);
     crearVisita({}, ficha0, LIB_FICHA_CAMPO_VISITA, entradaMaestro);
     crearPresion0EnFicha(ficha0);
 }
@@ -431,6 +433,7 @@ function crearEntrada(libreria, objetoEntrada, funcionCompletarEntrada, campoLin
     entradaPadre.recalc();
 
     if (funcionCompletarEntrada != null) {
+        entrada = libreria.findById(entrada.id);
         funcionCompletarEntrada(entradaPadre, entrada, entradaMaestro);
     }
 
@@ -547,7 +550,11 @@ function modificarEntrada0(entrada, campoId, campoLink, campoLinkPadre, campoMae
         entrada.link(campoMaestro, entradaMaestro);
         entrada.link(campoLink, entradaPadre);
 
-        funcionCompletarEntrada0(entradaPadre, entrada, entradaMaestro);
+        if (funcionCompletarEntrada0 != null) {
+            entrada.recalc();
+            entrada = libreria.findById(entrada.id);
+            funcionCompletarEntrada0(entradaPadre, entrada, entradaMaestro);
+        }
 
         entradaNueva.recalc();
         entradaNueva.show();
@@ -814,7 +821,7 @@ function helloWorld() {
 
 }
 
-var VERSION = '${VERSION-0.1}';
+var VERSION = '${VERSION-0.1.1}';
 
 function version() {
     message(VERSION)
