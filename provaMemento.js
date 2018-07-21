@@ -406,7 +406,13 @@ function completarFicha0(centro, ficha0, entradaMaestro) {
 }
 
 function completarVisita(ficha, visita, entradaMaestro) {
-    visita.link(LIB_VISITA_CAMPO_DCENTRO, ficha.field(LIB_FICHA_CAMPO_IDCENTRO)[0]);
+    try {
+        visita.link(LIB_VISITA_CAMPO_DCENTRO, ficha.field(LIB_FICHA_CAMPO_IDCENTRO)[0]);
+    } catch (e) {
+        message(e);
+        message(e);
+        message(e);
+    }
 }
 
 function crearVisita(objetoEntrada, entradaPadre, campoLinkPadre, entradaMaestro) {
@@ -417,15 +423,12 @@ function crearEntrada(libreria, objetoEntrada, funcionCompletarEntrada, campoLin
     libreria = getLibreria(libreria);
     var entrada = libreria.create(objetoEntrada);
 
-    try {
     entrada.link(campoMaestro, entradaMaestro);
-    } catch (e) {
-        message(e);
-        message(e);
-        message(e);
-    }
     entrada.link(campoLink, entradaPadre);
     entradaPadre.link(campoLinkPadre, entrada);
+
+    entrada.recalc();
+    entradaPadre.recalc();
 
     if (funcionCompletarEntrada != null) {
         funcionCompletarEntrada(entradaPadre, entrada, entradaMaestro);
@@ -493,7 +496,7 @@ function modificarEntrada0(entrada, campoId, campoLink, campoLinkPadre, campoMae
 
         entradaNueva = libreria.create(entradaNueva);
 
-        var entradaPadre = entrada.field(campoLink);
+        var entradaPadre = entrada.field(campoLink)[0];
         entradaPadre.link(campoLinkPadre, entradaNueva);
 
         var entradaMaestro = entrada.field(campoMaestro)[0];
