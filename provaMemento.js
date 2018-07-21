@@ -317,12 +317,14 @@ function concertarVisita(ficha, fechaVisita) {
     }
     var objetoVisita = {};
 
-    objetoVisita[LIB_VISITA_CAMPO_FECHA_VISITA] = fechaVisita;
+    //objetoVisita[LIB_VISITA_CAMPO_FECHA_VISITA] = fechaVisita.getTime();
     objetoVisita[LIB_VISITA_CAMPO_SITUACION] = SITUACION_VISITA_CONCERTADA;
 
     var entradaMaestro = getField(ficha, LIB_FICHA_CAMPO_IDDIETISTA)[0];
 
-    crearVisita(objetoVisita, ficha, LIB_FICHA_CAMPO_VISITA, entradaMaestro);
+    var visita = crearVisita(objetoVisita, ficha, LIB_FICHA_CAMPO_VISITA, entradaMaestro);
+
+    visita.field(LIB_VISITA_CAMPO_FECHA_VISITA, fechaVisita);
 }
 
 function informarCentroEnFicha(centro) {
@@ -869,7 +871,7 @@ function obtenerSiguienteId(libreria, campoId) {
 
 function helloWorld() {
 
-    message('Hello World11!!');
+    message('Hello World12!!');
 
 }
 
