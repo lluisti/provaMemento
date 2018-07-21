@@ -332,9 +332,11 @@ function informarCentroEnFicha(centro) {
         centro = entry();
     }
     var campoLinkDestino = LIB_FICHA_CAMPO_IDCENTRO;
+    var campoLink = LIB_CENTROS_CAMPO_FICHA_CLIENTE;
+    var campoId = LIB_FICHA_CAMPO_IDPACIENTE;
 
-    forEach(getField(centro, LIB_CENTROS_CAMPO_FICHA_CLIENTE), function (entrada, i) {
-        if (getField(entrada, LIB_FICHA_CAMPO_IDPACIENTE) == 0) {
+    forEach(getField(centro, campoLink), function (entrada, i) {
+        if (getField(entrada, campoId) == 0) {
             informarOrigenEntrada(centro, entrada, campoLinkDestino);
             var visita = getField(entrada, LIB_FICHA_CAMPO_VISITA)[0];
             informarOrigenEntrada(centro, visita, LIB_VISITA_CAMPO_DCENTRO);
@@ -347,10 +349,42 @@ function informarFichaEnPresion(ficha) {
         ficha = entry();
     }
     var campoLinkDestino = LIB_PRESION_CAMPO_IDFICHA;
+    var campoLink = LIB_FICHA_CAMPO_MEDICIONES_PRESION_ARTERIAL;
+    var campoId = LIB_PRESION_CAMPO_IDPRESION;
 
-    forEach(getField(ficha, LIB_FICHA_CAMPO_MEDICIONES_PRESION_ARTERIAL), function (entrada, i) {
-        if (getField(entrada, LIB_PRESION_CAMPO_IDPRESION) == 0) {
+    forEach(getField(ficha, campoLink), function (entrada, i) {
+        if (getField(entrada, campoId) == 0) {
             informarOrigenEntrada(ficha, entrada, campoLinkDestino)
+        }
+    });
+}
+
+function informarVisitaEnComplementos(ficha) {
+    if (visita == null) {
+        visita = entry();
+    }
+    // var campoLinkDestino = LIB_PRESION_CAMPO_IDFICHA;
+    // var campoLink = LIB_FICHA_CAMPO_MEDICIONES_PRESION_ARTERIAL;
+    // var campoId = LIB_PRESION_CAMPO_IDPRESION;
+
+    forEach(getField(visita, campoLink), function (entrada, i) {
+        if (getField(entrada, campoId) == 0) {
+            informarOrigenEntrada(visita, entrada, campoLinkDestino)
+        }
+    });
+}
+
+function informarVisitaEnDietas(visita) {
+    if (visita == null) {
+        visita = entry();
+    }
+    // var campoLinkDestino = LIB_PRESION_CAMPO_IDFICHA;
+    // var campoLink = LIB_FICHA_CAMPO_MEDICIONES_PRESION_ARTERIAL;
+    // var campoId = LIB_PRESION_CAMPO_IDPRESION;
+
+    forEach(getField(visita, campoLink), function (entrada, i) {
+        if (getField(entrada, campoId) == 0) {
+            informarOrigenEntrada(visita, entrada, campoLinkDestino)
         }
     });
 }
@@ -524,6 +558,20 @@ function modificarFicha0(ficha) {
     var funcionCompletarEntrada0 = completarFicha0;
 
     modificarEntrada0(ficha, campoId, campoLink, campoLinkPadre, campoMaestro, camposLinkHijos, camposHijos, campoSituacion, situacionDefecto, funcionCompletarEntrada0);
+}
+
+function modificarPresion0(presion) {
+    var campoId = LIB_PRESION_CAMPO_IDPRESION;
+    var campoLink = LIB_PRESION_CAMPO_IDFICHA;
+    var campoLinkPadre = LIB_FICHA_CAMPO_MEDICIONES_PRESION_ARTERIAL;
+    var campoMaestro = LIB_PRESION_CAMPO_IDDIETISTA;
+    var camposLinkHijos = [];
+    var camposHijos = [];
+    var campoSituacion = LIB_PRESION_CAMPO_SITUACION;
+    var situacionDefecto = '';
+    var funcionCompletarEntrada0 = null;
+
+    modificarEntrada0(presion, campoId, campoLink, campoLinkPadre, campoMaestro, camposLinkHijos, camposHijos, campoSituacion, situacionDefecto, funcionCompletarEntrada0);
 }
 
 /**
@@ -871,7 +919,7 @@ function obtenerSiguienteId(libreria, campoId) {
 
 function helloWorld() {
 
-    message('Hello World12!!');
+    message('Hello World13!!');
 
 }
 
