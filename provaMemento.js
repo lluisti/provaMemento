@@ -551,13 +551,14 @@ function modificarFicha0(ficha) {
     var campoLink = LIB_FICHA_CAMPO_IDCENTRO;
     var campoLinkPadre = LIB_CENTROS_CAMPO_FICHA_CLIENTE;
     var campoMaestro = LIB_FICHA_CAMPO_IDDIETISTA;
+    var camposCopiar = CAMPOS_FICHA;
     var camposLinkHijos = [LIB_FICHA_CAMPO_VISITA, LIB_FICHA_CAMPO_MEDICIONES_PRESION_ARTERIAL];
     var camposHijos = [LIB_VISITA_CAMPO_DFICHPACIENTE, LIB_PRESION_CAMPO_IDFICHA];
     var campoSituacion = LIB_FICHA_CAMPO_SITUACION;
     var situacionDefecto = SITUACION_FICHA_DEFECTO;
     var funcionCompletarEntrada0 = completarFicha0;
 
-    modificarEntrada0(ficha, campoId, campoLink, campoLinkPadre, campoMaestro, camposLinkHijos, camposHijos, campoSituacion, situacionDefecto, funcionCompletarEntrada0);
+    modificarEntrada0(ficha, campoId, campoLink, campoLinkPadre, campoMaestro, camposCopiar, camposLinkHijos, camposHijos, campoSituacion, situacionDefecto, funcionCompletarEntrada0);
 }
 
 function modificarPresion0(presion) {
@@ -565,13 +566,14 @@ function modificarPresion0(presion) {
     var campoLink = LIB_PRESION_CAMPO_IDFICHA;
     var campoLinkPadre = LIB_FICHA_CAMPO_MEDICIONES_PRESION_ARTERIAL;
     var campoMaestro = LIB_PRESION_CAMPO_IDDIETISTA;
+    var camposCopiar = CAMPOS_PRESION;
     var camposLinkHijos = [];
     var camposHijos = [];
     var campoSituacion = LIB_PRESION_CAMPO_SITUACION;
     var situacionDefecto = '';
     var funcionCompletarEntrada0 = null;
 
-    modificarEntrada0(presion, campoId, campoLink, campoLinkPadre, campoMaestro, camposLinkHijos, camposHijos, campoSituacion, situacionDefecto, funcionCompletarEntrada0);
+    modificarEntrada0(presion, campoId, campoLink, campoLinkPadre, campoMaestro, camposCopiar, camposLinkHijos, camposHijos, campoSituacion, situacionDefecto, funcionCompletarEntrada0);
 }
 
 /**
@@ -587,7 +589,7 @@ function modificarPresion0(presion) {
  * @param {String} situacionDefecto Situacion por defecto si no es entrada 0
  * @param {Fucntion} funcionCompletarEntrada0 Funcion para completar la entrada 0
  */
-function modificarEntrada0(entrada, campoId, campoLink, campoLinkPadre, campoMaestro, camposLinkHijos, camposHijos, campoSituacion, situacionDefecto, funcionCompletarEntrada0) {
+function modificarEntrada0(entrada, campoId, campoLink, campoLinkPadre, campoMaestro, camposCopiar, camposLinkHijos, camposHijos, campoSituacion, situacionDefecto, funcionCompletarEntrada0) {
     if (entrada == null) {
         entrada = entry();
     }
@@ -606,7 +608,7 @@ function modificarEntrada0(entrada, campoId, campoLink, campoLinkPadre, campoMae
 
         var entradaMaestro = getField(entrada, campoMaestro)[0];
 
-        forEach(CAMPOS_FICHA, function (campo) {
+        forEach(camposCopiar, function (campo) {
             var valorCampo = getField(entrada, campo);
             if (valorCampo != null && valorCampo != []) {
                 entradaNueva[campo] = getField(entrada, campo);
@@ -919,7 +921,7 @@ function obtenerSiguienteId(libreria, campoId) {
 
 function helloWorld() {
 
-    message('Hello World13!!');
+    message('Hello World14!!');
 
 }
 
