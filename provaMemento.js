@@ -245,6 +245,45 @@ var CAMPOS_PRESION = [
     LIB_PRESION_CAMPO_FECHA, LIB_PRESION_CAMPO_SISTOLICA, LIB_PRESION_CAMPO_DIASTOLICA, LIB_PRESION_CAMPO_SITUACION, LIB_PRESION_CAMPO_FILTRO, LIB_PRESION_CAMPO_IDFICHA, LIB_PRESION_CAMPO_IDDIETISTA
 ];
 
+var cacheLinks = {};
+
+function setLink(entrada, campo, entradaALinkar) {
+    var cacheLink = getLink(entrada, campo);
+
+    cacheLink.unshift(entradaALinkar);
+    entrada.link(campo, entradaALinkar);
+
+    cacheLinks[entrada.id + ' ' + campo] = cacheLink;
+}
+
+function removeLink(entrada, campo, entradaADesLinkar) {
+    var cacheLink = getLink(entrada, campo);
+
+    cacheLink = cacheLink.filter(function(el) {
+        return el.id !== entradaADesLinkar.id;
+    });
+    entrada.unlink(campo, entradaADesLinkar);
+
+    cacheLinks[entrada.id + ' ' + campo] = cacheLink;
+}
+
+function getLink(entrada, campo) {
+    if (cacheLinks[entrada.id + ' ' + campo] == null) {
+        cacheLinks[entrada.id + ' ' + campo] = entrada.field(campo);
+    }
+
+    return cacheLinks[entrada.id + ' ' + campo];
+}
+
+function getField(entrada, campo) {
+    var valor = entrada.field(campo);
+    // Si es un link cacheado
+    if (cacheLinks[entrada.id + ' ' + campo] != null) {
+        return getLink(entrada, campo);
+    }
+    return valor;
+}
+
 
 function getLibreria(libreria) {
     if (typeof libreria == 'string') {
@@ -273,7 +312,7 @@ function concertarVisita(ficha, fechaVisita) {
     objetoVisita[LIB_VISITA_CAMPO_FECHA_VISITA] = fechaVisita;
     objetoVisita[LIB_VISITA_CAMPO_SITUACION] = SITUACION_VISITA_CONCERTADA;
 
-    var entradaMaestro = ficha.field(LIB_FICHA_CAMPO_IDDIETISTA)[0];
+    var entradaMaestro = getField(ficha, LIB_FICHA_CAMPO_IDDIETISTA)[0];
 
     crearVisita(objetoVisita, ficha, LIB_FICHA_CAMPO_VISITA, entradaMaestro);
 }
@@ -284,9 +323,9 @@ function informarCentroEnFicha(centro) {
     }
     var campoLinkDestino = LIB_FICHA_CAMPO_IDCENTRO;
 
-    forEach(centro.field(LIB_CENTROS_CAMPO_FICHA_CLIENTE), function (entrada, i) {
-        if (entrada.field(LIB_FICHA_CAMPO_IDPACIENTE) == 0) {
-            informarOrigenEntrada(centro, entrada, campoLinkDestino)
+    forEach(getField(centro, LIB_CENTROS_CAMPO_FICHA_CLIENTE), function (entrada, i) {
+        if (getField(entrada, LIB_FICHA_CAMPO_IDPACIENTE) == 0) {
+            informarOrigenEntrada(centro, entrada, campoLinkDestino);
         }
     });
 }
@@ -297,8 +336,8 @@ function informarFichaEnPresion(ficha) {
     }
     var campoLinkDestino = LIB_PRESION_CAMPO_IDFICHA;
 
-    forEach(ficha.field(LIB_FICHA_CAMPO_MEDICIONES_PRESION_ARTERIAL), function (entrada, i) {
-        if (entrada.field(LIB_PRESION_CAMPO_IDPRESION) == 0) {
+    forEach(getField(ficha, LIB_FICHA_CAMPO_MEDICIONES_PRESION_ARTERIAL), function (entrada, i) {
+        if (getField(entrada, LIB_PRESION_CAMPO_IDPRESION) == 0) {
             informarOrigenEntrada(ficha, entrada, campoLinkDestino)
         }
     });
@@ -356,28 +395,28 @@ function vincularEntrada0(entradaActual, libreriaDestino, campoLink, campoLinkDe
     }
     libreriaDestino = getLibreria(libreriaDestino);
 
-    var links = entradaActual.field(campoLink);
+    var links = getField(entradaActual, campoLink);
     var contieneEntrada0 = false;
 
-    var entradaMaestro = entradaActual.field(campoMaestro)[0]
+    var entradaMaestro = getField(entradaActual, campoMaestro)[0]
 
     var entradasDestino = libreriaDestino.linksTo(entradaMaestro);
     var entrada0 = null;
 
     forEach(entradasDestino, function (entradaDestino, i) {
-        if (entradaDestino.field(campoIdDestino) == 0) {
+        if (getField(entradaDestino, campoIdDestino) == 0) {
             entrada0 = entradaDestino;
         }
     });
 
     if (entrada0 != null) {
         forEach(links, function (link, i) {
-            if (link.field(campoIdDestino) == 0) {
+            if (getField(link, campoIdDestino) == 0) {
                 if (!contieneEntrada0 && link.id == entrada0.id) {
                     contieneEntrada0 = true;
                     message('Contiene');
                 } else {
-                    entradaActual.unlink(campoLink, link);
+                    removeLink(entradaActual, campoLink, link);
                 }
             }
         });
@@ -393,7 +432,7 @@ function vincularEntrada0(entradaActual, libreriaDestino, campoLink, campoLinkDe
 
             informarOrigenEntrada(entradaActual, entrada0, campoLinkDestino)
 
-            entradaActual.link(campoLink, entrada0);
+            setLink(entradaActual, campoLink, entrada0);
             entradaActual.recalc();
         }
 
@@ -409,11 +448,12 @@ function completarFicha0(centro, ficha0, entradaMaestro) {
 
 function completarVisita(ficha, visita, entradaMaestro) {
     try {
-        visita.link(LIB_VISITA_CAMPO_DCENTRO, ficha.field(LIB_FICHA_CAMPO_IDCENTRO)[0]);
+        setLink(visita, LIB_VISITA_CAMPO_DCENTRO, getField(ficha, LIB_FICHA_CAMPO_IDCENTRO)[0]);
     } catch (e) {
         message(e);
         message(e);
         message(e);
+        throw e;
     }
 }
 
@@ -425,9 +465,9 @@ function crearEntrada(libreria, objetoEntrada, funcionCompletarEntrada, campoLin
     libreria = getLibreria(libreria);
     var entrada = libreria.create(objetoEntrada);
 
-    entrada.link(campoMaestro, entradaMaestro);
-    entrada.link(campoLink, entradaPadre);
-    entradaPadre.link(campoLinkPadre, entrada);
+    setLink(entrada, campoMaestro, entradaMaestro);
+    setLink(entrada, campoLink, entradaPadre);
+    setLink(entradaPadre, campoLinkPadre, entrada);
 
     entrada.recalc();
     entradaPadre.recalc();
@@ -448,13 +488,13 @@ function informarOrigenEntrada(entradaOrigen, entrada, campoLink) {
         entradaOrigen = entry();
     }
 
-    var links = entrada.field(campoLink);
+    var links = getField(entrada, campoLink);
 
     forEach(links, function (link, i) {
-        entrada.unlink(campoLink, link);
+        removeLink(entrada, campoLink, link);
     });
 
-    entrada.link(campoLink, entradaOrigen);
+    setLink(entrada, campoLink, entradaOrigen);
     entrada.recalc();
 }
 
@@ -491,7 +531,7 @@ function modificarEntrada0(entrada, campoId, campoLink, campoLinkPadre, campoMae
     }
     var libreria = lib();
 
-    if (entrada.field(campoId) == 0) {
+    if (getField(entrada, campoId) == 0) {
 
         var entradaNueva = {};
 
@@ -499,28 +539,28 @@ function modificarEntrada0(entrada, campoId, campoLink, campoLinkPadre, campoMae
 
         entradaNueva = libreria.create(entradaNueva);
 
-        var entradaPadre = entrada.field(campoLink)[0];
-        entradaPadre.link(campoLinkPadre, entradaNueva);
+        var entradaPadre = getField(entrada, campoLink)[0];
+        setLink(entradaPadre, campoLinkPadre, entradaNueva);
 
-        var entradaMaestro = entrada.field(campoMaestro)[0];
+        var entradaMaestro = getField(entrada, campoMaestro)[0];
 
         forEach(CAMPOS_FICHA, function (campo) {
-            var valorCampo = entrada.field(campo);
+            var valorCampo = getField(entrada, campo);
             if (valorCampo != null && valorCampo != []) {
-                entradaNueva[campo] = entrada.field(campo);
+                entradaNueva[campo] = getField(entrada, campo);
                 if (valorCampo instanceof Array && valorCampo[0] != null) {
                     if (typeof valorCampo[0] == 'string') {
                         entradaNueva.set(campo, valorCampo);
                         entrada.set(campo, null);
                     } else {
                         forEach(valorCampo, function (entradaHijo) {
-                            entrada.unlink(campo, entradaHijo);
-                            entradaNueva.link(campo, entradaHijo);
+                            removeLink(entrada, campo, entradaHijo);
+                            setLink(entradaNueva, campo, entradaHijo);
 
                             forEach(camposLinkHijos, function (campoLinkHijo, i) {
                                 if (campo == campoLinkHijo) {
-                                    entradaHijo.unlink(camposHijos[i], entrada);
-                                    entradaHijo.link(camposHijos[i], entradaNueva);
+                                    removeLink(entradaHijo, camposHijos[i], entrada);
+                                    setLink(entradaHijo, camposHijos[i], entradaNueva);
                                     entradaHijo.recalc();
                                 }
                             });
@@ -541,14 +581,14 @@ function modificarEntrada0(entrada, campoId, campoLink, campoLinkPadre, campoMae
         });
 
 
-        if (entradaNueva.field(campoSituacion) == SITUACION_NUEVO_REGISTRO) {
+        if (getField(entradaNueva, campoSituacion) == SITUACION_NUEVO_REGISTRO) {
             entradaNueva.set(campoSituacion, situacionDefecto);
         }
 
         entrada.set(campoId, 0);
         entrada.set(campoSituacion, SITUACION_NUEVO_REGISTRO);
-        entrada.link(campoMaestro, entradaMaestro);
-        entrada.link(campoLink, entradaPadre);
+        setLink(entrada, campoMaestro, entradaMaestro);
+        setLink(entrada, campoLink, entradaPadre);
 
         if (funcionCompletarEntrada0 != null) {
             entrada.recalc();
@@ -561,7 +601,7 @@ function modificarEntrada0(entrada, campoId, campoLink, campoLinkPadre, campoMae
 
         message(MSG_GUARDADO);
     } else {
-        if (entrada.field(campoSituacion) == SITUACION_NUEVO_REGISTRO) {
+        if (getField(entrada, campoSituacion) == SITUACION_NUEVO_REGISTRO) {
             entrada.set(campoSituacion, situacionDefecto);
             entrada.recalc();
         }
@@ -577,7 +617,7 @@ function obtenerSiguienteId(libreria, campoId) {
 
     var entradas = libreria.entries();
     forEach(entradas, function (entrada) {
-        var num = entrada.field(campoId);
+        var num = getField(entrada, campoId);
         if (num > maxId) {
             maxId = num;
         }
@@ -817,7 +857,7 @@ function obtenerSiguienteId(libreria, campoId) {
 
 function helloWorld() {
 
-    message('Hello World4!!');
+    message('Hello World5!!');
 
 }
 
