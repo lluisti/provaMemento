@@ -259,7 +259,7 @@ function setLink(entrada, campo, entradaALinkar) {
 function removeLink(entrada, campo, entradaADesLinkar) {
     var cacheLink = getLink(entrada, campo);
 
-    cacheLink = cacheLink.filter(function(el) {
+    cacheLink = cacheLink.filter(function (el) {
         return el.id !== entradaADesLinkar.id;
     });
     entrada.unlink(campo, entradaADesLinkar);
@@ -276,12 +276,25 @@ function getLink(entrada, campo) {
 }
 
 function getField(entrada, campo) {
-    var valor = entrada.field(campo);
-    // Si es un link cacheado
-    if (cacheLinks[entrada.id + ' ' + campo] != null) {
-        return getLink(entrada, campo);
+    return messageError(function (entrada, campo) {
+        var valor = entrada.field(campo);
+        // Si es un link cacheado
+        if (cacheLinks[entrada.id + ' ' + campo] != null) {
+            return getLink(entrada, campo);
+        }
+        return valor;
+    }, entrada, campo);
+}
+
+function messageError(funcion, ...args) {
+    try {
+        return funcion.apply(null, args);
+    } catch (e) {
+        message(campo + ' - ' + e);
+        message(campo + ' - ' + e);
+        message(campo + ' - ' + e.stack);
+        message(campo + ' - ' + e.stack);
     }
-    return valor;
 }
 
 
@@ -859,7 +872,7 @@ function obtenerSiguienteId(libreria, campoId) {
 
 function helloWorld() {
 
-    message('Hello World6!!');
+    message('Hello World7!!');
 
 }
 
