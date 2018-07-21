@@ -1,15 +1,17 @@
 
 // Literales
-var NUEVO_REGISTRO = 'NUEVO REGISTRO';
-var SITUACION_DEFECTO_FICHA = 'CONSULTA';
-
 var MSG_VUELVE_A_INTRODUCIR = 'Por favor, vuelve ha introducir el campo ';
 var MSG_GUARDADO = 'Ficha Guardada';
 
+// Valores
+var SITUACION_NUEVO_REGISTRO = 'NUEVO REGISTRO';
+var SITUACION_FICHA_DEFECTO = 'CONSULTA';
+var SITUACION_VISITA_CONCERTADA = 'Visita concertada';
 
 // Librerias
 var LIB_CENTROS = 'Centros';
 var LIB_FICHA = 'Ficha';
+var LIB_VISITA = 'Control visita';
 
 // Campos por libreria
 
@@ -156,13 +158,79 @@ var LIB_FICHA_CAMPO_IDCENTRO = 'idCentro';
 var LIB_FICHA_CAMPO_IDDIETISTA = 'iddietista';
 var LIB_FICHA_CAMPO_FILTRO = 'filtro';
 
+// Campos visita
+var LIB_VISITA_CAMPO_DFICHPACIENTE = 'dFichPaciente';
+var LIB_VISITA_CAMPO_FECHA_VISITA = 'Fecha visita';
+var LIB_VISITA_CAMPO_HORA_VISTA = 'Hora vista';
+var LIB_VISITA_CAMPO_SITUACION = 'Situación';
+var LIB_VISITA_CAMPO_EDAD = 'Edad';
+var LIB_VISITA_CAMPO_ALTURA = 'Altura';
+var LIB_VISITA_CAMPO_INDICE_DE_MASA_CORPORAL = 'INDICE DE MASA CORPORAL';
+var LIB_VISITA_CAMPO_PESO = 'Peso';
+var LIB_VISITA_CAMPO_CONTORNO_PECHO = 'Contorno Pecho';
+var LIB_VISITA_CAMPO_CONTORNO_CINTURA = 'Contorno Cintura';
+var LIB_VISITA_CAMPO_CONTORNO_CADERAS = 'Contorno Caderas';
+var LIB_VISITA_CAMPO_CONTORNO_MUSLOS = 'Contorno muslos';
+var LIB_VISITA_CAMPO_CONTORNO_BRAZOS = 'Contorno brazos';
+var LIB_VISITA_CAMPO_CONTORNO_BARRIGA = 'Contorno barriga';
+var LIB_VISITA_CAMPO_OBSERVACIONES_DE_LA_VISITA = 'Observaciones de la visita';
+var LIB_VISITA_CAMPO_DIETA_ANTERIOR = 'Dieta Anterior';
+var LIB_VISITA_CAMPO_DIETA_ASIGNADA = 'Dieta Asignada';
+var LIB_VISITA_CAMPO_COMPLEMENTO_ANTERIOR = 'Complemento Anterior';
+var LIB_VISITA_CAMPO_COMPLEMENTOS_PRESCRITOS = 'Complementos Prescritos';
+var LIB_VISITA_CAMPO_HOY = 'hoy';
+var LIB_VISITA_CAMPO_CALCULATION = 'Calculation';
+var LIB_VISITA_CAMPO_PATOLOGIAS_DIAGNOSTICADAS = 'Patologías diagnosticadas';
+var LIB_VISITA_CAMPO_PATOLOGIA = 'Patología';
+var LIB_VISITA_CAMPO_MEDICACION_FARMACOLOGICA = 'Medicación farmacologica';
+var LIB_VISITA_CAMPO_COMPLEMENTOS_ALIMENTICIOS_COMPETENCIA = 'Complementos alimenticios competencia';
+var LIB_VISITA_CAMPO_INTERVENCIONES_QUIRURGICAS = 'Intervenciones Quirúrgicas';
+var LIB_VISITA_CAMPO_P_ARTERIAL = 'P Arterial';
+var LIB_VISITA_CAMPO_PRESION_ARTERIAL = 'Presión Arterial';
+var LIB_VISITA_CAMPO_MEDICION = 'Medición';
+var LIB_VISITA_CAMPO_COLESTEROL_HDL = 'Colesterol HDL';
+var LIB_VISITA_CAMPO_COLESTEROL_LDL = 'Colesterol LDL';
+var LIB_VISITA_CAMPO_COLESTEROL_TOTAL = 'Colesterol Total';
+var LIB_VISITA_CAMPO_TRIGLICERIDOS = 'Triglicéridos';
+var LIB_VISITA_CAMPO_OTROS_DATOS_ANALITICAS = 'Otros datos Analitícas';
+var LIB_VISITA_CAMPO_ALERGIAS = 'Alergias';
+var LIB_VISITA_CAMPO_ALERGENOS = 'Alérgenos';
+var LIB_VISITA_CAMPO_INTOLERANCIAS_ALIMENTICIAS = 'Intolerancias alimenticias';
+var LIB_VISITA_CAMPO_LACTEOS = 'lacteos';
+var LIB_VISITA_CAMPO_FRUTA = 'Fruta';
+var LIB_VISITA_CAMPO_LEGUMBRES = 'Legumbres';
+var LIB_VISITA_CAMPO_PASTA = 'Pasta';
+var LIB_VISITA_CAMPO_ARROZ = 'Arroz';
+var LIB_VISITA_CAMPO_VERDURA = 'Verdura';
+var LIB_VISITA_CAMPO_ENSALADA = 'Ensalada';
+var LIB_VISITA_CAMPO_CARNE = 'Carne';
+var LIB_VISITA_CAMPO_PESCADO = 'Pescado';
+var LIB_VISITA_CAMPO_NO_INCLUIR_EN_LAS_DIETAS = 'No incluir en las dietas';
+var LIB_VISITA_CAMPO_CONSUMO_DE_AGUA_DIARIO = 'Consumo de agua diario';
+var LIB_VISITA_CAMPO_ANSIEDAD = 'Ansiedad';
+var LIB_VISITA_CAMPO_TIPO_DE_ANSIEDAD = 'Tipo de Ansiedad';
+var LIB_VISITA_CAMPO_EN_QUE_MOMENTO_DEL_DIA = 'En que momento del día';
+var LIB_VISITA_CAMPO_W_C = 'W. C.';
+var LIB_VISITA_CAMPO_REGLAS = 'Reglas';
+var LIB_VISITA_CAMPO_CONTROL_VISITA = 'Control visita';
+var LIB_VISITA_CAMPO_FILTRO = 'filtro';
+var LIB_VISITA_CAMPO_DDIETISTA = 'dDietista';
+var LIB_VISITA_CAMPO_DCENTRO = 'dCentro';
+var LIB_VISITA_CAMPO_PECHO = 'pecho';
+var LIB_VISITA_CAMPO_CINTURA = 'cintura';
+var LIB_VISITA_CAMPO_CADERAS = 'caderas';
+var LIB_VISITA_CAMPO_MUSLOS = 'muslos';
+var LIB_VISITA_CAMPO_BRAZOS = 'brazos';
+var LIB_VISITA_CAMPO_BARRIGA = 'barriga';
+
+
 // Array campos copiables ficha
 var CAMPOS_FICHA = [
     LIB_FICHA_CAMPO_ACEPTACION, LIB_FICHA_CAMPO_ACEPTADAS_CONDICIONES, LIB_FICHA_CAMPO_VER_DOCUMENTO_PROTECCION_DE_DATOS, LIB_FICHA_CAMPO_QUIEN_LE_RECOMENDO_EL_TRATAMIENTO, LIB_FICHA_CAMPO_FECHA_ALTA, LIB_FICHA_CAMPO_OTROS, LIB_FICHA_CAMPO_SITUACION, LIB_FICHA_CAMPO_NOMBRE, LIB_FICHA_CAMPO_APELLIDOS, LIB_FICHA_CAMPO_DNI, LIB_FICHA_CAMPO_SEXO, LIB_FICHA_CAMPO_FECHA_DE_NACIMIENTO, LIB_FICHA_CAMPO_DIRECCION, LIB_FICHA_CAMPO_CODIGO_POSTAL, LIB_FICHA_CAMPO_POBLACION, LIB_FICHA_CAMPO_TELEFONO, LIB_FICHA_CAMPO_MOVIL, LIB_FICHA_CAMPO_EMAIL, LIB_FICHA_CAMPO_PATOLOGIAS_DIAGNOSTICADAS, LIB_FICHA_CAMPO_OTRAS_PATOLOGIAS, LIB_FICHA_CAMPO_MEDICACION_OTRAS_PATOLOGIAS, LIB_FICHA_CAMPO_TIPO_DE_MEDICACION_OTRAS_PATOLOGIAS, LIB_FICHA_CAMPO_COMPLEMENTOS_ALIMENTICIOS_OTRAS_PATOLOGIAS, LIB_FICHA_CAMPO_COM_OTRAS, LIB_FICHA_CAMPO_ARTICULAR, LIB_FICHA_CAMPO_MEDICACION_ARTICULAR, LIB_FICHA_CAMPO_TIPO_DE_MEDICACION_ARTICULAR, LIB_FICHA_CAMPO_COMPLEMENTOS_ALIMENTICIOS_ARTICULAR, LIB_FICHA_CAMPO_COM_ARTICULAR, LIB_FICHA_CAMPO_CIRCULATORIA, LIB_FICHA_CAMPO_MEDICACION_CIRCULATORIA, LIB_FICHA_CAMPO_TIPO_DE_MEDICACION_CIRCULATORIA, LIB_FICHA_CAMPO_COMPLEMENTOS_ALIMENTICIOS_CIRCULATORIA, LIB_FICHA_CAMPO_COM_CIRCULATORIA, LIB_FICHA_CAMPO_CUTANEA, LIB_FICHA_CAMPO_MEDICACION_CUTANEA, LIB_FICHA_CAMPO_TIPO_DE_MEDICACION_CUTANEO, LIB_FICHA_CAMPO_COMPLEMENTOS_ALIMENTICIOS_CUTANEA, LIB_FICHA_CAMPO_COM_CUTANEA, LIB_FICHA_CAMPO_DIGESTIVA, LIB_FICHA_CAMPO_MEDICACION_DIGESTIVA, LIB_FICHA_CAMPO_TIPO_DE_MEDICACION_DIGESTIVA, LIB_FICHA_CAMPO_COMPLEMENTOS_ALIMENTICIOS_DIGESTIVA, LIB_FICHA_CAMPO_COM_DIGESTIVA, LIB_FICHA_CAMPO_METABOLICA, LIB_FICHA_CAMPO_MEDICACION_METABOLICA, LIB_FICHA_CAMPO_TIPO_DE_MEDICACION_METABOLICA, LIB_FICHA_CAMPO_COMPLEMENTOS_ALIMENTICIOS_METABOLICA, LIB_FICHA_CAMPO_COM_METABOLICA, LIB_FICHA_CAMPO_RESPIRATORIA, LIB_FICHA_CAMPO_MEDICACION_RESPIRATORIA, LIB_FICHA_CAMPO_TIPO_DE_MEDICACION_RESPIRATORIA, LIB_FICHA_CAMPO_COMPLEMENTOS_ALIMENTICIOS_RESPIRATORIA, LIB_FICHA_CAMPO_COM_RESPIRATORIA, LIB_FICHA_CAMPO_SISTEMA_NERVIOSO, LIB_FICHA_CAMPO_MEDICACION_SISTEMA_NERVIOSO, LIB_FICHA_CAMPO_TIPO_DE_MEDICACION_SISTEMA_NERVIOSO, LIB_FICHA_CAMPO_COMPLEMENTOS_ALIMENTICIOS_SISTEMA_NERVIOSO, LIB_FICHA_CAMPO_COM_SISTEMA_NERVIOSO, LIB_FICHA_CAMPO_TRANSTORNOS_PSICOLOGICOS, LIB_FICHA_CAMPO_MEDICACION_TRANSTORNOS_PSICOLOGICOS, LIB_FICHA_CAMPO_TIPO_DE_MEDICACION_TRANSTORNOS_PSICOLOGICOS, LIB_FICHA_CAMPO_COMPLEMENTOS_ALIMENTICIOS_TRANSTORNOS_PSICOLOGICOS, LIB_FICHA_CAMPO_COM_TRANSTORNOS_PSICOLOGICOS, LIB_FICHA_CAMPO_INTERVENCIONES_QUIRURJICAS, LIB_FICHA_CAMPO_PRESION_ARTERIAL, LIB_FICHA_CAMPO_MEDICIONES_PRESION_ARTERIAL, LIB_FICHA_CAMPO_COLESTEROL, LIB_FICHA_CAMPO_HDL, LIB_FICHA_CAMPO_LDL, LIB_FICHA_CAMPO_COLESTEROL_TOTAL, LIB_FICHA_CAMPO_TRIGLICERIDOS, LIB_FICHA_CAMPO_AÑADIR_INFORMACION_DE_OTROS_DATOS_ANALITICOS, LIB_FICHA_CAMPO_MOSTRAR_ANALITICA, LIB_FICHA_CAMPO_IMG_ANALITICA, LIB_FICHA_CAMPO_ALERGIAS, LIB_FICHA_CAMPO_ALERGIAS__ALIMENTICIAS, LIB_FICHA_CAMPO_ALERGIAS_MEDICAMENTOSAS, LIB_FICHA_CAMPO_ALERGIAS_OTRAS, LIB_FICHA_CAMPO_INTOLERANCIAS_ALIMENTICIAS, LIB_FICHA_CAMPO_OTRAS_INTOLERANCIAS, LIB_FICHA_CAMPO_CAMINAR, LIB_FICHA_CAMPO_DEPORTES, LIB_FICHA_CAMPO_DEPORTE_QUE_PRACTICA, LIB_FICHA_CAMPO_DESAYUNO, LIB_FICHA_CAMPO_HORA_DESAYUNO, LIB_FICHA_CAMPO_MÈDIA_MAÑANA, LIB_FICHA_CAMPO_HORARIO_MEDIA_MAÑANA, LIB_FICHA_CAMPO_COMIDA, LIB_FICHA_CAMPO_HORA_COMIDA, LIB_FICHA_CAMPO_MERIENDA, LIB_FICHA_CAMPO_HORA_MERIENDA, LIB_FICHA_CAMPO_CENA, LIB_FICHA_CAMPO_HORA_CENA, LIB_FICHA_CAMPO_CONSUMO_DE_LACTEOS, LIB_FICHA_CAMPO_CONSUMO_DE_FRUTA, LIB_FICHA_CAMPO_CONSUMO_DE_LEGUMBRES, LIB_FICHA_CAMPO_CONSUMO_DE_PASTA, LIB_FICHA_CAMPO_CONSUMO_DE_ARROZ, LIB_FICHA_CAMPO_CONSUMO_DE_VERDURA, LIB_FICHA_CAMPO_CONSUMO_DE_ENSALADA, LIB_FICHA_CAMPO_CONSUMO_DE_CARNE, LIB_FICHA_CAMPO_CONSUMO_DE_PESCADO, LIB_FICHA_CAMPO_CONSUMO_DIARIO_DE_AGUA, LIB_FICHA_CAMPO_INTENTAR_NO_INCLUIR_EN_LAS_DIETAS, LIB_FICHA_CAMPO_ANSIEDAD, LIB_FICHA_CAMPO_TIPO_DE_ANSIEDAD, LIB_FICHA_CAMPO_ANSIEDAD_OTROS, LIB_FICHA_CAMPO_EN_QUE_MOMENTO_DEL_DIA_SE_PRODUCTE_LA_ANSIEDAD, LIB_FICHA_CAMPO_WC, LIB_FICHA_CAMPO_WC_OTROS, LIB_FICHA_CAMPO_REGLAS, LIB_FICHA_CAMPO_REGLAS_OTRAS, LIB_FICHA_CAMPO_ALTURA, LIB_FICHA_CAMPO_VISITA, LIB_FICHA_CAMPO_HISTORICO, LIB_FICHA_CAMPO_IDDIETISTA, LIB_FICHA_CAMPO_IDCENTRO, LIB_FICHA_CAMPO_FILTRO
 ];
 
 
-function libreria(libreria) {
+function getLibreria(libreria) {
     if (typeof libreria == 'string') {
         libreria = libByName(libreria);
     }
@@ -177,6 +245,23 @@ function forEach(coleccion, funcion) {
     }
 }
 
+function concertarVisita(ficha, fechaVisita) {
+    if (ficha == null) {
+        ficha = entry();
+    }
+    if (fechaVisita == null) {
+        fechaVisita = new Date();
+    }
+    var objetoVisita = {};
+
+    objetoVisita[LIB_VISITA_CAMPO_FECHA_VISITA] = fechaVisita;
+    objetoVisita[LIB_VISITA_CAMPO_SITUACION] = SITUACION_VISITA_CONCERTADA;
+
+    var entradaMaestro = ficha.field(LIB_FICHA_CAMPO_IDDIETISTA)[0];
+
+    crearVisita(objetoVisita, ficha, LIB_FICHA_CAMPO_VISITA, entradaMaestro);
+}
+
 function informarCentroEnFicha(centro) {
     if (centro == null) {
         centro = entry();
@@ -185,7 +270,7 @@ function informarCentroEnFicha(centro) {
 
     forEach(centro.field(LIB_CENTROS_CAMPO_FICHA_CLIENTE), function (entrada, i) {
         if (entrada.field(LIB_FICHA_CAMPO_IDPACIENTE) == 0) {
-            informarOrigenEntrada0(centro, entrada, campoLinkDestino)
+            informarOrigenEntrada(centro, entrada, campoLinkDestino)
         }
     });
 }
@@ -200,11 +285,11 @@ function crearFicha0EnCentro(centro) {
     var objetoEntrada0 = {};
 
     objetoEntrada0[LIB_FICHA_CAMPO_IDPACIENTE] = 0;
-    objetoEntrada0[LIB_FICHA_CAMPO_SITUACION] = NUEVO_REGISTRO;
+    objetoEntrada0[LIB_FICHA_CAMPO_SITUACION] = SITUACION_NUEVO_REGISTRO;
 
-    var funcionCrearEntrada0 = null;
+    var funcionCompletarEntrada0 = completarFicha0;
 
-    vincularEntrada0(centro, libreriaDestino, campoLinks, campoLinkDestino, campoMaestro, campoMaestroDestino, campoIdDestino, objetoEntrada0, funcionCrearEntrada0);
+    vincularEntrada0(centro, libreriaDestino, campoLinks, campoLinkDestino, campoMaestro, campoMaestroDestino, campoIdDestino, objetoEntrada0, funcionCompletarEntrada0);
 }
 
 /**
@@ -217,13 +302,13 @@ function crearFicha0EnCentro(centro) {
  * @param {String} campoMaestroDestino Campo de la entrada 0 que determina que entrada 0 debo buscar
  * @param {String} campoIdDestino Campo identificador de la entrada destino
  * @param {Object} objetoEntrada0 Objeto con los campo/valores de la nueva entrada 0
- * @param {Function} objetoEntrada0 Funcion para completar la nueva entrada 0
+ * @param {Function} funcionCompletarEntrada0 Funcion para completar la nueva entrada 0
  */
-function vincularEntrada0(entradaActual, libreriaDestino, campoLink, campoLinkDestino, campoMaestro, campoMaestroDestino, campoIdDestino, objetoEntrada0, funcionCrearEntrada0) {
+function vincularEntrada0(entradaActual, libreriaDestino, campoLink, campoLinkDestino, campoMaestro, campoMaestroDestino, campoIdDestino, objetoEntrada0, funcionCompletarEntrada0) {
     if (entradaActual == null) {
         entradaActual = entry();
     }
-    libreriaDestino = libreria(libreriaDestino);
+    libreriaDestino = getLibreria(libreriaDestino);
 
     var links = entradaActual.field(campoLink);
     var contieneEntrada0 = false;
@@ -257,42 +342,73 @@ function vincularEntrada0(entradaActual, libreriaDestino, campoLink, campoLinkDe
 
         if (entrada0 == null) {
 
-            entrada0 = crearEntrada0(objetoEntrada0, funcionCrearEntrada0, entradaActual, entradaMaestro);
+            entrada0 = crearEntrada(libreriaDestino, objetoEntrada0, funcionCompletarEntrada0, campoLinkDestino, entradaActual, campoLink, entradaMaestro, campoMaestroDestino);
+        } else {
+
+            informarOrigenEntrada(entradaActual, entrada0, campoLinkDestino)
+
+            entradaActual.link(campoLink, entrada0);
+            entradaActual.recalc();
         }
-
-        informarOrigenEntrada0(entradaActual, entrada0, campoLinkDestino)
-
-        entradaActual.link(campoLink, entrada0);
-        entradaActual.recalc();
 
     }
 }
 
-function crearEntrada0(objetoEntrada0, funcionCrearEntrada0, entradaActual, entradaMaestro) {
-    var entrada0 = libreriaDestino.create(objetoEntrada0);
+function completarFicha0(centro, ficha0, entradaMaestro) {
+    var visitaInicial = crearVisita({}, ficha0, LIB_FICHA_CAMPO_VISITA, entradaMaestro);
 
-    entrada0.link(campoMaestroDestino, entradaMaestro);
+}
 
-    if (funcionCrearEntrada0 != null) {
-        funcionCrearEntrada0(entradaActual, entrada0, entradaMaestro);
+function completarVisita(ficha, visita, entradaMaestro) {
+    visita.link(LIB_VISITA_CAMPO_DCENTRO, ficha.field(LIB_FICHA_CAMPO_IDCENTRO));
+}
+
+function crearVisita(objetoEntrada, entradaPadre, campoLinkPadre, entradaMaestro) {
+    return crearEntrada(LIB_VISITA, objetoEntrada, completarVisita, LIB_VISITA_CAMPO_DFICHPACIENTE, entradaPadre, campoLinkPadre, entradaMaestro, LIB_VISITA_CAMPO_DDIETISTA)
+}
+
+function crearEntrada(libreria, objetoEntrada, funcionCompletarEntrada, campoLink, entradaPadre, campoLinkPadre, entradaMaestro, campoMaestro) {
+    libreria = getLibreria(libreria);
+    var entrada = libreria.create(objetoEntrada);
+
+    entrada.link(campoMaestro, entradaMaestro);
+    entrada.link(campoLink, entradaPadre);
+    entradaPadre.link(campoLinkPadre, entrada);
+
+    if (funcionCompletarEntrada != null) {
+        funcionCompletarEntrada(entradaPadre, entrada, entradaMaestro);
     }
 
     return entrada0;
 }
 
-function informarOrigenEntrada0(entradaActual, entrada0, campoLinkDestino) {
-    if (entradaActual == null) {
-        entradaActual = entry();
+function informarOrigenEntrada(entradaOrigen, entrada, campoLink) {
+    if (entradaOrigen == null) {
+        entradaOrigen = entry();
     }
 
-    var linksDestino = entrada0.field(campoLinkDestino);
+    var links = entrada.field(campoLink);
 
-    forEach(linksDestino, function (linkDestino, i) {
-        entrada0.unlink(campoLinkDestino, linkDestino);
+    forEach(links, function (link, i) {
+        entrada.unlink(campoLink, link);
     });
 
-    entrada0.link(campoLinkDestino, entradaActual);
-    entrada0.recalc();
+    entrada.link(campoLink, entradaOrigen);
+    entrada.recalc();
+}
+
+function modificarFicha0(ficha) {
+    var campoId = LIB_FICHA_CAMPO_IDPACIENTE;
+    var campoLink = LIB_FICHA_CAMPO_IDCENTRO;
+    var campoLinkPadre = LIB_CENTROS_CAMPO_FICHA_CLIENTE;
+    var campoMaestro = LIB_FICHA_CAMPO_IDDIETISTA;
+    var camposLinkHijos = [LIB_FICHA_CAMPO_VISITA];
+    var camposHijos = [LIB_VISITA_CAMPO_DFICHPACIENTE];
+    var campoSituacion = LIB_FICHA_CAMPO_SITUACION;
+    var situacionDefecto = SITUACION_FICHA_DEFECTO;
+    var funcionCompletarEntrada0 = completarFicha0;
+
+    modificarEntrada0(ficha, campoId, campoLink, campoLinkPadre, campoMaestro, camposLinkHijos, camposHijos, campoSituacion, situacionDefecto, funcionCompletarEntrada0);
 }
 
 /**
@@ -306,8 +422,9 @@ function informarOrigenEntrada0(entradaActual, entrada0, campoLinkDestino) {
  * @param {String[]} camposHijos Campos de las entradas hijo que se debe actualizar
  * @param {String} campoSituacion Campo donde se almacena la situacion NUEVO_REGISTRO
  * @param {String} situacionDefecto Situacion por defecto si no es entrada 0
+ * @param {Fucntion} funcionCompletarEntrada0 Funcion para completar la entrada 0
  */
-function modificarEntrada0(entrada, campoId, campoLink, campoLinkPadre, campoMaestro, camposLinkHijos, camposHijos, campoSituacion, situacionDefecto) {
+function modificarEntrada0(entrada, campoId, campoLink, campoLinkPadre, campoMaestro, camposLinkHijos, camposHijos, campoSituacion, situacionDefecto, funcionCompletarEntrada0) {
     if (entrada) {
         entrada = entry();
     }
@@ -324,6 +441,8 @@ function modificarEntrada0(entrada, campoId, campoLink, campoLinkPadre, campoMae
         var entradaPadre = entrada.field(campoLink);
         entradaPadre.link(campoLinkPadre, entradaNueva);
 
+        var entradaMaestro = entrada.field(campoMaestro)[0];
+
         forEach(CAMPOS_FICHA, function (campo) {
             var valorCampo = entrada.field(campo);
             if (valorCampo != null && valorCampo != []) {
@@ -337,7 +456,7 @@ function modificarEntrada0(entrada, campoId, campoLink, campoLinkPadre, campoMae
                             entrada.unlink(campo, entradaHijo);
                             entradaNueva.link(campo, entradaHijo);
 
-                            forEach(camposLinkHijos, function(campoLinkHijo, i) {
+                            forEach(camposLinkHijos, function (campoLinkHijo, i) {
                                 if (campo == campoLinkHijo) {
                                     entradaHijo.unlink(camposHijos[i], entrada);
                                     entradaHijo.link(camposHijos[i], entradaNueva);
@@ -361,21 +480,23 @@ function modificarEntrada0(entrada, campoId, campoLink, campoLinkPadre, campoMae
         });
 
 
-        if (entradaNueva.field(campoSituacion) == NUEVO_REGISTRO) {
+        if (entradaNueva.field(campoSituacion) == SITUACION_NUEVO_REGISTRO) {
             entradaNueva.set(campoSituacion, situacionDefecto);
         }
 
         entrada.set(campoId, 0);
-        entrada.set(campoSituacion, NUEVO_REGISTRO);
-        entrada.link(campoMaestro, entradaNueva.field(campoMaestro)[0]);
+        entrada.set(campoSituacion, SITUACION_NUEVO_REGISTRO);
+        entrada.link(campoMaestro, entradaMaestro);
         entrada.link(campoLink, entradaPadre);
+
+        funcionCompletarEntrada0(entradaPadre, entrada, entradaMaestro);
 
         entradaNueva.recalc();
         entradaNueva.show();
 
         message(MSG_GUARDADO);
     } else {
-        if (entrada.field(campoSituacion) == NUEVO_REGISTRO) {
+        if (entrada.field(campoSituacion) == SITUACION_NUEVO_REGISTRO) {
             entrada.set(campoSituacion, situacionDefecto);
             entrada.recalc();
         }
@@ -385,7 +506,7 @@ function modificarEntrada0(entrada, campoId, campoLink, campoLinkPadre, campoMae
 
 
 function obtenerSiguienteId(libreria, campoId) {
-    libreria = libreria(libreria);
+    libreria = getLibreria(libreria);
 
     var maxId = 0;
 
@@ -402,7 +523,25 @@ function obtenerSiguienteId(libreria, campoId) {
 
 
 
+// function consertarVisita() {
+//     var libVisitas = libByName('Control visita');
 
+//     var ficha = entry();
+
+//     var fechaVisita = arg('Fecha visita');
+
+//     var visita = libVisitas.create({});
+
+//     visita.set('Fecha visita', fechaVisita);
+//     visita.set('Situación', 'Visita concertada');
+//     visita.link('dFichPaciente', ficha);
+//     visita.link('dDietista', ficha.field('iddietista')[0]);
+//     visita.link('dCentro', ficha.field('idCentro')[0]);
+
+//     ficha.link('Visita', visita);
+
+//     visita.recalc();
+// }
 
 // function modificarFicha0() {
 
