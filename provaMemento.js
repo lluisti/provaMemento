@@ -640,7 +640,7 @@ function obtenerSiguienteId(libreria, campoId) {
 
 
 
-// function consertarVisita() {
+// function concertarVisita() {
 //     var libVisitas = libByName('Control visita');
 
 //     var ficha = entry();
@@ -869,7 +869,7 @@ function obtenerSiguienteId(libreria, campoId) {
 
 function helloWorld() {
 
-    message('Hello World10!!');
+    message('Hello World11!!');
 
 }
 
