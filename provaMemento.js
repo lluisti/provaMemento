@@ -294,6 +294,7 @@ function messageError(funcion, ...args) {
         message(campo + ' - ' + e);
         message(campo + ' - ' + e.stack);
         message(campo + ' - ' + e.stack);
+        throw e;
     }
 }
 
@@ -872,7 +873,7 @@ function obtenerSiguienteId(libreria, campoId) {
 
 function helloWorld() {
 
-    message('Hello World7!!');
+    message('Hello World8!!');
 
 }
 
