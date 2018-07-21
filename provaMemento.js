@@ -406,7 +406,7 @@ function completarFicha0(centro, ficha0, entradaMaestro) {
 }
 
 function completarVisita(ficha, visita, entradaMaestro) {
-    visita.link(LIB_VISITA_CAMPO_DCENTRO, ficha.field(LIB_FICHA_CAMPO_IDCENTRO));
+    visita.link(LIB_VISITA_CAMPO_DCENTRO, ficha.field(LIB_FICHA_CAMPO_IDCENTRO)[0]);
 }
 
 function crearVisita(objetoEntrada, entradaPadre, campoLinkPadre, entradaMaestro) {
