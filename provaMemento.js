@@ -326,6 +326,8 @@ function informarCentroEnFicha(centro) {
     forEach(getField(centro, LIB_CENTROS_CAMPO_FICHA_CLIENTE), function (entrada, i) {
         if (getField(entrada, LIB_FICHA_CAMPO_IDPACIENTE) == 0) {
             informarOrigenEntrada(centro, entrada, campoLinkDestino);
+            var visita = getField(entrada, LIB_FICHA_CAMPO_VISITA)[0];
+            informarOrigenEntrada(centro, visita, LIB_VISITA_CAMPO_DCENTRO);
         }
     });
 }
@@ -857,7 +859,7 @@ function obtenerSiguienteId(libreria, campoId) {
 
 function helloWorld() {
 
-    message('Hello World5!!');
+    message('Hello World6!!');
 
 }
 
