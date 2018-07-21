@@ -417,7 +417,13 @@ function crearEntrada(libreria, objetoEntrada, funcionCompletarEntrada, campoLin
     libreria = getLibreria(libreria);
     var entrada = libreria.create(objetoEntrada);
 
+    try {
     entrada.link(campoMaestro, entradaMaestro);
+    } catch (e) {
+        message(e);
+        message(e);
+        message(e);
+    }
     entrada.link(campoLink, entradaPadre);
     entradaPadre.link(campoLinkPadre, entrada);
 
@@ -425,7 +431,10 @@ function crearEntrada(libreria, objetoEntrada, funcionCompletarEntrada, campoLin
         funcionCompletarEntrada(entradaPadre, entrada, entradaMaestro);
     }
 
-    return entrada0;
+    entrada.recalc();
+    entradaPadre.recalc();
+
+    return entrada;
 }
 
 function informarOrigenEntrada(entradaOrigen, entrada, campoLink) {
@@ -798,6 +807,6 @@ function obtenerSiguienteId(libreria, campoId) {
 
 function helloWorld() {
 
-    message('Hello World2!!');
+    message('Hello World3!!');
 
 }
