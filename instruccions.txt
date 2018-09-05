@@ -1,0 +1,5 @@
+
+
+ - Els camps de vincle han d'estar ocults en mode edicio (tots aquells que es creein desde un botó).
+ - Abans que puguin utilitzar els botons hauran d'informar els camps obligatoris i gravar l'entrada.
+ - Amagar els camps numReg i codReg de totes les llibreries

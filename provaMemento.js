@@ -362,7 +362,7 @@ function informarFichaEnPresion(ficha) {
     });
 }
 
-function informarVisitaEnComplementos(ficha) {
+function informarVisitaEnComplementos(visita) {
     if (visita == null) {
         visita = entry();
     }
@@ -690,7 +690,7 @@ function obtenerSiguienteId(libreria, campoId) {
 
 function helloWorld() {
 
-    message('Hello World17!!');
+    message('Hello World18!!');
 
 }
 
