@@ -6,9 +6,10 @@ var VERSION = '${VERSION-0.2.0}';
 var MSG_RELLENAR_ENTRADA = 'Primero debes introducir los datos requeridos';
 
 // Valores
-var SITUACION_NUEVO_REGISTRO = 'NUEVO REGISTRO';
-var SITUACION_FICHA_DEFECTO = 'CONSULTA';
 var SITUACION_VISITA_CONCERTADA = 'Visita concertada';
+
+// Argumentos
+var ARG_FECHA_VISITA = 'Fecha visita';
 
 // Librerias
 var LIB_PERSONAL = 'Personal'
@@ -236,7 +237,7 @@ function accionFichaCrearVisita(ficha) {
     var visita = accionCrearEntrada(ficha, funcionCrearEntrada, campoLink, entradaMaestro);
 
     if (visita != null) {
-        var fechaVisita = arg('Fecha visita');
+        var fechaVisita = arg(ARG_FECHA_VISITA);
         if (fechaVisita == null) {
             fechaVisita = new Date();
         }
