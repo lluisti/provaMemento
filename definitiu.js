@@ -233,7 +233,7 @@ function accionFichaCrearVisita(ficha) {
     var campoLink = LIB_FICHA_CAMPO_VISITA;
     var entradaMaestro = getField(ficha, LIB_FICHA_CAMPO_IDDIETISTA)[0];
 
-    var visita = accionCrearEntrada(centro, funcionCrearEntrada, campoLink, entradaMaestro);
+    var visita = accionCrearEntrada(ficha, funcionCrearEntrada, campoLink, entradaMaestro);
 
     if (visita != null) {
         var fechaVisita = arg('Fecha visita');
