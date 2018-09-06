@@ -122,6 +122,14 @@ function getLibreria(libreria) {
     return libreria;
 }
 
+function forEach(coleccion, funcion) {
+    if (coleccion != null && coleccion.length != 0) {
+        for (var i = 0; i < coleccion.length; i++) {
+            funcion(coleccion[i], i);
+        }
+    }
+}
+
 function completarFicha(centro, ficha, entradaMaestro) {
     //crearVisita({}, ficha, LIB_FICHA_CAMPO_VISITA, entradaMaestro);
 }
