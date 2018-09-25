@@ -345,6 +345,8 @@ function disparadorModificarEntrada(campoPadre, libreria, entradaActual) {
 
         var entradaPadre = getField(entradaActual, campoPadre)[0];
         entradaActual.set(CAMPO_COD_REG, construirCodReg(entradaActual, entradaPadre));
+        
+        entradaActual.recalc();
     }
 }
 
